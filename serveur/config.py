@@ -14,6 +14,22 @@ def _requis(nom: str) -> str:
     return valeur
 
 
+VARIABLES_REQUISES = (
+    "FIREBASE_SERVICE_ACCOUNT_JSON",
+    "SMTP_HOTE",
+    "SMTP_PORT",
+    "SMTP_UTILISATEUR",
+    "SMTP_MOT_DE_PASSE",
+    "EXPEDITEUR_EMAIL",
+    "SECRET_CODES",
+)
+
+
+def variables_manquantes() -> list:
+    """Les noms (jamais les valeurs) des variables absentes ou vides."""
+    return [nom for nom in VARIABLES_REQUISES if not os.environ.get(nom, "").strip()]
+
+
 def secret_codes() -> str:
     return _requis("SECRET_CODES")
 
