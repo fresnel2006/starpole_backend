@@ -49,7 +49,7 @@ def empreinte_journal(secret: str, email: str) -> str:
 
 
 def generer_code() -> str:
-    return f"{secrets.randbelow(1_000_000):06d}"
+    return f"{secrets.randbelow(10_000):04d}"
 
 
 def demander_code(

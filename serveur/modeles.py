@@ -20,7 +20,7 @@ class DemandeCode(BaseModel):
 
 
 class VerificationCode(DemandeCode):
-    code: str = Field(pattern=r"^\d{6}$")
+    code: str = Field(pattern=r"^\d{4}$")
     nom: Optional[str] = Field(default=None, max_length=100)
 
     @field_validator("nom")

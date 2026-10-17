@@ -44,9 +44,9 @@ def test_normalisation_email():
     assert not codes.email_valide("pas-un-email")
 
 
-def test_code_a_six_chiffres_envoye_et_stocke_hache(depot, courriel):
+def test_code_a_quatre_chiffres_envoye_et_stocke_hache(depot, courriel):
     code = demander(depot, courriel)
-    assert len(code) == 6 and code.isdigit()
+    assert len(code) == 4 and code.isdigit()
     assert courriel.envois == [(EMAIL, code)]
     stocke = str(depot.donnees)
     assert code not in stocke and EMAIL not in stocke
@@ -69,14 +69,14 @@ def test_code_expire(depot, courriel):
 
 def test_code_incorrect(depot, courriel):
     code = demander(depot, courriel)
-    mauvais = "000000" if code != "000000" else "111111"
+    mauvais = "0000" if code != "0000" else "1111"
     assert statut_erreur(lambda: verifier(depot, mauvais)) == 400
     verifier(depot, code)
 
 
 def test_cinq_essais_maximum(depot, courriel):
     code = demander(depot, courriel)
-    mauvais = "000000" if code != "000000" else "111111"
+    mauvais = "0000" if code != "0000" else "1111"
     for _ in range(5):
         assert statut_erreur(lambda: verifier(depot, mauvais)) == 400
     # Même le bon code est refusé après 5 échecs.
@@ -84,7 +84,7 @@ def test_cinq_essais_maximum(depot, courriel):
 
 
 def test_aucun_code_en_attente(depot):
-    assert statut_erreur(lambda: verifier(depot, "123456")) == 400
+    assert statut_erreur(lambda: verifier(depot, "1234")) == 400
 
 
 def test_un_code_par_minute(depot, courriel):
