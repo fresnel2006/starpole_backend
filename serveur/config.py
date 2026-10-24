@@ -30,6 +30,23 @@ def variables_manquantes() -> list:
     return [nom for nom in VARIABLES_REQUISES if not os.environ.get(nom, "").strip()]
 
 
+ORIGINES_ADMIN_DEFAUT = (
+    "http://localhost:5173",
+    "https://starpole-3d84d.web.app",
+    "https://starpole-3d84d.firebaseapp.com",
+)
+
+
+def origines_admin() -> list:
+    """Adresses autorisées (CORS) pour la console web d'administration.
+
+    Variable facultative ORIGINES_ADMIN, séparée par des virgules. Par défaut :
+    la console en local et son hébergement Firebase.
+    """
+    valeur = os.environ.get("ORIGINES_ADMIN", "").strip() or ",".join(ORIGINES_ADMIN_DEFAUT)
+    return [o.strip().rstrip("/") for o in valeur.split(",") if o.strip()]
+
+
 def secret_codes() -> str:
     return _requis("SECRET_CODES")
 

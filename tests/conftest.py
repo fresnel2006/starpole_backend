@@ -32,6 +32,11 @@ class FausseReference:
             raise AlreadyExists("existe déjà")
         self.set(donnees)
 
+    def update(self, champs):
+        if self._chemin not in self._base.donnees:
+            raise KeyError("document absent")
+        self._base.donnees[self._chemin].update(copy.deepcopy(champs))
+
     def delete(self):
         self._base.donnees.pop(self._chemin, None)
 
@@ -53,6 +58,12 @@ class FausseCollection:
 
     def document(self, doc_id):
         return FausseReference(self._base, self._chemin + (doc_id,))
+
+    def add(self, donnees):
+        self._base.compteur += 1
+        reference = self.document(f"auto{self._base.compteur}")
+        reference.set(donnees)
+        return None, reference
 
     def where(self, filter):
         return FausseCollection(self._base, self._chemin, self._filtres + (filter,))
@@ -77,6 +88,7 @@ class FausseBase:
 
     def __init__(self):
         self.donnees = {}
+        self.compteur = 0
 
     def collection(self, nom):
         return FausseCollection(self, (nom,))

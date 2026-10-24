@@ -38,6 +38,18 @@ class DemandeMessage(BaseModel):
     conversationId: str = Field(pattern=FORMAT_ID)
 
 
+class DemandeModeration(BaseModel):
+    motif: str = Field(max_length=300)
+
+    @field_validator("motif")
+    @classmethod
+    def _motif(cls, valeur: str) -> str:
+        valeur = valeur.strip()
+        if len(valeur) < 3:
+            raise ValueError("motif trop court")
+        return valeur
+
+
 class DemandeAlerte(BaseModel):
     alerteId: str = Field(pattern=FORMAT_ID)
     rayonMetres: float = Field(default=500, gt=0, le=50_000)

@@ -28,6 +28,20 @@ def utilisateur_connecte(authorization: Optional[str] = Header(default=None)) ->
         raise ErreurApi(401, "Jeton d'identité invalide ou expiré.")
 
 
+def administrateur_connecte(authorization: Optional[str] = Header(default=None)) -> str:
+    """Uid de l'appelant, s'il porte la revendication `admin: true`."""
+    jeton = extraire_jeton(authorization)
+    firebase.application()
+    try:
+        revendications = auth.verify_id_token(jeton, check_revoked=True)
+    except Exception as e:
+        logger.info("Jeton d'identité refusé : %s", type(e).__name__)
+        raise ErreurApi(401, "Jeton d'identité invalide ou expiré.")
+    if revendications.get("admin") is not True:
+        raise ErreurApi(403, "Accès réservé aux administrateurs.")
+    return revendications["uid"]
+
+
 def utilisateur_limite(
     uid: str = Depends(utilisateur_connecte),
     depot=Depends(firebase.obtenir_depot),
