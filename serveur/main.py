@@ -3,7 +3,7 @@ import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from . import config, routes_admin, routes_auth, routes_notifications
+from . import config, routes_admin, routes_auth, routes_moderation, routes_notifications
 from .erreurs import installer_gestionnaires
 
 logging.basicConfig(level=logging.INFO)
@@ -13,6 +13,7 @@ installer_gestionnaires(app)
 app.include_router(routes_auth.routeur)
 app.include_router(routes_notifications.routeur)
 app.include_router(routes_admin.routeur)
+app.include_router(routes_moderation.routeur)
 
 # CORS uniquement pour la console web d'administration (l'appli mobile n'en a pas besoin).
 app.add_middleware(

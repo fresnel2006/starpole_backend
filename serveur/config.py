@@ -22,6 +22,7 @@ VARIABLES_REQUISES = (
     "SMTP_MOT_DE_PASSE",
     "EXPEDITEUR_EMAIL",
     "SECRET_CODES",
+    "GEMINI_CLE_API",
 )
 
 
@@ -49,6 +50,16 @@ def origines_admin() -> list:
 
 def secret_codes() -> str:
     return _requis("SECRET_CODES")
+
+
+def cle_gemini() -> str:
+    """Clé de l'API Gemini (vérification des alertes par l'IA)."""
+    return _requis("GEMINI_CLE_API")
+
+
+def modele_gemini() -> str:
+    """Modèle Gemini utilisé (variable facultative GEMINI_MODELE)."""
+    return os.environ.get("GEMINI_MODELE", "").strip() or "gemini-flash-lite-latest"
 
 
 def compte_service_json() -> str:

@@ -50,6 +50,10 @@ class DemandeModeration(BaseModel):
         return valeur
 
 
+class DemandeVerificationAlerte(BaseModel):
+    alerteId: str = Field(pattern=FORMAT_ID)
+
+
 class DemandeAlerte(BaseModel):
     alerteId: str = Field(pattern=FORMAT_ID)
     rayonMetres: float = Field(default=500, gt=0, le=50_000)
