@@ -38,6 +38,8 @@ ORIGINES_ADMIN_DEFAUT = (
     # Site web public StarPole (Firebase Hosting).
     "https://starpole-web.web.app",
     "https://starpole-web.firebaseapp.com",
+    # Site web public StarPole (Vercel).
+    "https://starpole-site-web-l9p4.vercel.app",
 )
 
 
