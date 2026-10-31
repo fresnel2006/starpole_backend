@@ -44,11 +44,14 @@ ORIGINES_ADMIN_DEFAUT = (
 def origines_admin() -> list:
     """Adresses autorisées (CORS) : console d'administration et site web public.
 
-    Variable facultative ORIGINES_ADMIN, séparée par des virgules. Par défaut :
-    la console en local et son hébergement Firebase.
+    Les adresses de ORIGINES_ADMIN_DEFAUT sont toujours autorisées ; la
+    variable facultative ORIGINES_ADMIN (séparée par des virgules) en ajoute
+    d'autres, sans les remplacer.
     """
-    valeur = os.environ.get("ORIGINES_ADMIN", "").strip() or ",".join(ORIGINES_ADMIN_DEFAUT)
-    return [o.strip().rstrip("/") for o in valeur.split(",") if o.strip()]
+    valeur = os.environ.get("ORIGINES_ADMIN", "")
+    origines = list(ORIGINES_ADMIN_DEFAUT) + [o.strip() for o in valeur.split(",") if o.strip()]
+    # Sans doublon, dans l'ordre.
+    return list(dict.fromkeys(o.rstrip("/") for o in origines))
 
 
 def secret_codes() -> str:
