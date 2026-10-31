@@ -35,11 +35,14 @@ ORIGINES_ADMIN_DEFAUT = (
     "http://localhost:5173",
     "https://starpole-3d84d.web.app",
     "https://starpole-3d84d.firebaseapp.com",
+    # Site web public StarPole (Firebase Hosting).
+    "https://starpole-web.web.app",
+    "https://starpole-web.firebaseapp.com",
 )
 
 
 def origines_admin() -> list:
-    """Adresses autorisées (CORS) pour la console web d'administration.
+    """Adresses autorisées (CORS) : console d'administration et site web public.
 
     Variable facultative ORIGINES_ADMIN, séparée par des virgules. Par défaut :
     la console en local et son hébergement Firebase.
